@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_05_095054) do
+ActiveRecord::Schema.define(version: 2021_07_21_162213) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -248,6 +248,22 @@ ActiveRecord::Schema.define(version: 2021_06_05_095054) do
     t.index ["keep_until"], name: "index_dossier_operation_logs_on_keep_until"
   end
 
+  create_table "dossier_transfer_logs", force: :cascade do |t|
+    t.string "from", null: false
+    t.string "to", null: false
+    t.bigint "dossier_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["dossier_id"], name: "index_dossier_transfer_logs_on_dossier_id"
+  end
+
+  create_table "dossier_transfers", force: :cascade do |t|
+    t.string "token", null: false
+    t.string "email", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "dossiers", id: :serial, force: :cascade do |t|
     t.boolean "autorisation_donnees"
     t.datetime "created_at"
@@ -279,7 +295,9 @@ ActiveRecord::Schema.define(version: 2021_06_05_095054) do
     t.index "to_tsvector('french'::regconfig, (search_terms || private_search_terms))", name: "index_dossiers_on_search_terms_private_search_terms", using: :gin
     t.index "to_tsvector('french'::regconfig, search_terms)", name: "index_dossiers_on_search_terms", using: :gin
     t.datetime "declarative_triggered_at"
+    t.bigint "dossier_transfer_id"
     t.index ["archived"], name: "index_dossiers_on_archived"
+    t.index ["dossier_transfer_id"], name: "index_dossiers_on_dossier_transfer_id"
     t.index ["groupe_instructeur_id"], name: "index_dossiers_on_groupe_instructeur_id"
     t.index ["hidden_at"], name: "index_dossiers_on_hidden_at"
     t.index ["revision_id"], name: "index_dossiers_on_revision_id"
@@ -771,6 +789,8 @@ ActiveRecord::Schema.define(version: 2021_06_05_095054) do
   add_foreign_key "commentaires", "experts"
   add_foreign_key "dossier_operation_logs", "bill_signatures"
   add_foreign_key "dossier_operation_logs", "instructeurs"
+  add_foreign_key "dossier_transfer_logs", "dossiers"
+  add_foreign_key "dossiers", "dossier_transfers"
   add_foreign_key "dossiers", "groupe_instructeurs"
   add_foreign_key "dossiers", "procedure_revisions", column: "revision_id"
   add_foreign_key "dossiers", "users"

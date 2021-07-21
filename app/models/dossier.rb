@@ -28,6 +28,7 @@
 #  termine_close_to_expiration_notice_sent_at         :datetime
 #  created_at                                         :datetime
 #  updated_at                                         :datetime
+#  dossier_transfer_id                                :bigint
 #  groupe_instructeur_id                              :bigint
 #  revision_id                                        :bigint
 #  user_id                                            :integer
@@ -92,6 +93,9 @@ class Dossier < ApplicationRecord
   has_one :procedure, through: :revision
   has_many :types_de_champ, through: :revision
   has_many :types_de_champ_private, through: :revision
+
+  belongs_to :transfer, class_name: 'DossierTransfer', foreign_key: 'dossier_transfer_id', optional: true
+  has_many :transfer_logs, class_name: 'DossierTransferLog', dependent: :destroy
 
   accepts_nested_attributes_for :champs
   accepts_nested_attributes_for :champs_private
