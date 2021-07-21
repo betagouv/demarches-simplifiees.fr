@@ -54,6 +54,9 @@ module Types
     field :draft_revision, Types::RevisionType, null: false
     field :published_revision, Types::RevisionType, null: true
     field :revisions, [Types::RevisionType], null: false
+    field :revision_changes, [Types::RevisionChangeType], null: false do
+      argument :revision, ID, required: true
+    end
 
     def state
       object.aasm.current_state
@@ -115,6 +118,10 @@ module Types
       end
 
       dossiers.order(deleted_at: order)
+    end
+
+    def revision_changes(revision:)
+      find_revision(revision).compare(object.active_revision)
     end
 
     def self.authorized?(object, context)

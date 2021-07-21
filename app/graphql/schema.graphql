@@ -555,6 +555,7 @@ type Demarche {
   """
   number: Int!
   publishedRevision: Revision
+  revisionChanges(revision: ID!): [RevisionChange!]!
   revisions: [Revision!]!
   service: Service!
 
@@ -1691,6 +1692,117 @@ type Revision {
   """
   datePublication: ISO8601DateTime
   id: ID!
+}
+
+union RevisionChange = RevisionChangeAddChamp | RevisionChangeDescription | RevisionChangeLabel | RevisionChangeOptions | RevisionChangePosition | RevisionChangeRemoveChamp | RevisionChangeRequired | RevisionChangeType
+
+type RevisionChangeAddChamp {
+  """
+  ID du champ.
+  """
+  id: ID!
+}
+
+type RevisionChangeDescription {
+  """
+  Valeur d’origine.
+  """
+  from: String!
+
+  """
+  ID du champ.
+  """
+  id: ID!
+
+  """
+  Nouvelle valeur.
+  """
+  to: String!
+}
+
+type RevisionChangeLabel {
+  """
+  Valeur d’origine.
+  """
+  from: String!
+
+  """
+  ID du champ.
+  """
+  id: ID!
+
+  """
+  Nouvelle valeur.
+  """
+  to: String!
+}
+
+type RevisionChangeOptions {
+  addedValues: [String!]!
+
+  """
+  ID du champ.
+  """
+  id: ID!
+  removedValues: [String!]!
+}
+
+type RevisionChangePosition {
+  """
+  Valeur d’origine.
+  """
+  from: Int!
+
+  """
+  ID du champ.
+  """
+  id: ID!
+
+  """
+  Nouvelle valeur.
+  """
+  to: Int!
+}
+
+type RevisionChangeRemoveChamp {
+  """
+  ID du champ.
+  """
+  id: ID!
+}
+
+type RevisionChangeRequired {
+  """
+  Valeur d’origine.
+  """
+  from: Boolean!
+
+  """
+  ID du champ.
+  """
+  id: ID!
+
+  """
+  Nouvelle valeur.
+  """
+  to: Boolean!
+}
+
+type RevisionChangeType {
+  """
+  Valeur d’origine.
+  """
+  from: TypeDeChamp!
+
+  """
+  ID du champ.
+  """
+  id: ID!
+
+  """
+  Nouvelle valeur.
+  """
+  to: TypeDeChamp!
 }
 
 type SelectionUtilisateur implements GeoArea {
