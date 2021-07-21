@@ -142,6 +142,14 @@ class DossierMailer < ApplicationMailer
     mail(to: dossier.user_email_for(:notification), subject: @subject)
   end
 
+  def notify_transfer(transfer)
+    #@subject = "Une demande de transfert de dossier vous est adressée"
+    @subject = default_i18n_subject(count: transfer.dossiers.count)
+    @transfer = transfer
+
+    mail(to: transfer.email, subject: @subject)
+  end
+
   protected
 
   # This is an override of `default_i18n_subject` method
