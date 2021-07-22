@@ -1,0 +1,12 @@
+- content_for(:title, "Contacter les usagers pour #{@procedure.libelle}")
+
+= render partial: 'new_administrateur/breadcrumbs',
+  locals: { steps: [link_to(@procedure.libelle, instructeur_procedure_path(@procedure)),
+                    'Contacter les usagers en brouillon'] }
+.messagerie.container
+  - if @bulk_messages.present?
+    %p.mb-2 Messages envoyés aux usagers :
+    - @bulk_messages.each do |bulk_message|
+      %li.mb-1 #{bulk_message.instructeur.email} a envoyé un message le #{bulk_message.sent_at.strftime('%d-%m-%Y')} à #{bulk_message.dossier_count} usagers, #{bulk_message.piece_jointe.blob.present? ? "avec" : "sans"} pièce jointe
+  %p.notice.mb-2.mt-4 Vous allez envoyer un message à #{pluralize(@dossiers_count, 'personne')} dans les groupes instructeurs : #{@groupe_instructeurs.join(', ')}.
+  = render partial: 'shared/dossiers/messages/form', locals: { commentaire: @commentaire, form_url: create_multiple_commentaire_instructeur_procedure_path(@procedure) }

@@ -214,6 +214,50 @@ module Instructeurs
       @usual_traitement_time_by_month = @procedure.stats_usual_traitement_time_by_month_in_days
     end
 
+    def email_usagers
+      @procedure = procedure
+      @commentaire = Commentaire.new
+      @dossiers_count = email_usagers_dossiers.count
+      @groupe_instructeurs = email_usagers_groupe_instructeurs_label
+      @bulk_messages = BulkMessage.includes(:groupe_instructeurs).where(groupe_instructeurs: { id: current_instructeur.groupe_instructeur_ids })
+    end
+
+    def create_multiple_commentaire
+      @procedure = procedure
+      errors = []
+
+      email_usagers_dossiers.each do |dossier|
+        commentaire = CommentaireService.build(current_instructeur, dossier, commentaire_params)
+        if commentaire.save
+          commentaire.dossier.update!(last_commentaire_updated_at: Time.zone.now)
+        else
+          errors << dossier.id
+        end
+      end
+
+      valid_dossiers_count = email_usagers_dossiers.count - errors.count
+      create_bulk_message_mail(valid_dossiers_count, Dossier.states.fetch(:brouillon))
+
+      if errors.empty?
+        flash[:notice] = "Tous les messages ont été envoyés avec succès"
+      else
+        flash[:alert] = "Envoi terminé. Cependant #{errors.count} messages n'ont pas été envoyés"
+      end
+      redirect_to instructeur_procedure_path(@procedure)
+    end
+
+    def create_bulk_message_mail(dossier_count, dossier_state)
+      BulkMessage.create(
+        dossier_count: dossier_count,
+        dossier_state: dossier_state,
+        body: commentaire_params[:body],
+        sent_at: Time.zone.now,
+        instructeur_id: current_instructeur.id,
+        piece_jointe: commentaire_params[:piece_jointe],
+        groupe_instructeurs: email_usagers_groupe_instructeurs
+      )
+    end
+
     private
 
     def assign_to_params
@@ -282,6 +326,22 @@ module Instructeurs
 
     def current_filters
       @current_filters ||= procedure_presentation.filters[statut]
+    end
+
+    def email_usagers_dossiers
+      procedure.dossiers.state_brouillon.where(groupe_instructeur: current_instructeur.groupe_instructeur_ids).includes(:groupe_instructeur)
+    end
+
+    def email_usagers_groupe_instructeurs_label
+      email_usagers_dossiers.map(&:groupe_instructeur).uniq.map(&:label)
+    end
+
+    def email_usagers_groupe_instructeurs
+      email_usagers_dossiers.map(&:groupe_instructeur).uniq
+    end
+
+    def commentaire_params
+      params.require(:commentaire).permit(:body, :piece_jointe)
     end
   end
 end

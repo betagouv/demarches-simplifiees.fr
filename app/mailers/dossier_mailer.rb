@@ -18,10 +18,11 @@ class DossierMailer < ApplicationMailer
     end
   end
 
-  def notify_new_answer(dossier)
+  def notify_new_answer(dossier, body = nil)
     @dossier = dossier
     @service = dossier.procedure.service
     @logo_url = attach_logo(dossier.procedure)
+    @body = body
 
     subject = "Nouveau message pour votre dossier nº #{dossier.id} (#{dossier.procedure.libelle})"
 

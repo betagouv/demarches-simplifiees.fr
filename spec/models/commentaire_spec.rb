@@ -3,7 +3,6 @@ describe Commentaire do
   it { is_expected.to have_db_column(:body) }
   it { is_expected.to have_db_column(:created_at) }
   it { is_expected.to have_db_column(:updated_at) }
-  it { is_expected.to belong_to(:dossier) }
 
   describe 'messagerie_available validation' do
     subject { commentaire.valid?(:create) }
@@ -18,7 +17,7 @@ describe Commentaire do
       let(:dossier) { create :dossier, :archived }
       let(:commentaire) { build :commentaire, dossier: dossier }
 
-      it { is_expected.to be_falsey }
+      it { is_expected.to be_truthy }
     end
 
     context 'on a dossier en_construction' do

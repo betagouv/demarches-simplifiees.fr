@@ -26,8 +26,20 @@ RSpec.describe DossierMailer, type: :mailer do
     it_behaves_like 'a dossier notification'
   end
 
-  describe '.notify_new_answer' do
+  describe '.notify_new_answer with dossier brouillon' do
     let(:dossier) { create(:dossier, procedure: build(:simple_procedure)) }
+
+    subject { described_class.notify_new_answer(dossier) }
+
+    it { expect(subject.subject).to include("Nouveau message") }
+    it { expect(subject.subject).to include(dossier.id.to_s) }
+    it { expect(subject.body).not_to include(messagerie_dossier_url(dossier)) }
+
+    it_behaves_like 'a dossier notification'
+  end
+
+  describe '.notify_new_answer with dossier en construction' do
+    let(:dossier) { create(:dossier, state: "en_construction", procedure: build(:simple_procedure)) }
 
     subject { described_class.notify_new_answer(dossier) }
 

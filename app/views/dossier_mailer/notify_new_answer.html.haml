@@ -3,16 +3,19 @@
 
 %p
   Bonjour,
+  %p
+    Vous avez reçu un
+    %strong nouveau message
+    de la part du service en charge de votre dossier.
 
-%p
-  Vous avez reçu un
-  %strong nouveau message
-  de la part du service en charge de votre dossier.
+- if !@dossier.brouillon?
+  %p
+    Pour consulter le message et y répondre, cliquez sur le bouton ci-dessous :
 
-%p
-  Pour consulter le message et y répondre, cliquez sur le bouton ci-dessous :
-
-= round_button('Lire le message', messagerie_dossier_url(@dossier), :primary)
+  = round_button('Lire le message', messagerie_dossier_url(@dossier), :primary)
+- else
+  %p{ style: "padding: 8px; color: #333333; background-color: #EEEEEE; font-size: 14px;" }
+    = @body
 
 = render 'layouts/mailers/signature', service: @service
 

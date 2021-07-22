@@ -489,4 +489,48 @@ describe Instructeurs::ProceduresController, type: :controller do
       end
     end
   end
+
+  describe '#create_multiple_commentaire' do
+    let(:instructeur) { create(:instructeur) }
+    let!(:gi_p1_1) { GroupeInstructeur.create(label: '1', procedure: procedure) }
+    let!(:gi_p1_2) { GroupeInstructeur.create(label: '2', procedure: procedure) }
+    let(:body) { "avant\napres" }
+    let!(:dossier) { create(:dossier, state: "brouillon", procedure: procedure, groupe_instructeur: procedure.groupe_instructeurs.first) }
+    let!(:dossier_2) { create(:dossier, state: "brouillon", procedure: procedure, groupe_instructeur: gi_p1_1) }
+    let!(:dossier_3) { create(:dossier, state: "brouillon", procedure: procedure, groupe_instructeur: gi_p1_2) }
+    let!(:procedure) { create(:procedure, :published, instructeurs: [instructeur]) }
+
+    before do
+      sign_in(instructeur.user)
+      instructeur.groupe_instructeurs << gi_p1_1
+      procedure
+      post :create_multiple_commentaire,
+      params: {
+        procedure_id: procedure.id,
+        commentaire: { body: body }
+      }
+    end
+
+    it "creates a commentaire for 2 dossiers" do
+      expect(Commentaire.all.count).to eq(2)
+      expect(dossier.commentaires.first.body).to eq("avant\napres")
+      expect(dossier_2.commentaires.first.body).to eq("avant\napres")
+      expect(dossier_3.commentaires).to eq([])
+    end
+
+    it "creates a Bulk Message for 2 groupes instructeurs" do
+      expect(BulkMessage.all.count).to eq(1)
+      expect(BulkMessage.all.first.body).to eq("avant\napres")
+      expect(BulkMessage.all.first.groupe_instructeurs.sort).to match([procedure.groupe_instructeurs.first, gi_p1_1])
+    end
+
+    it "creates a flash notice" do
+      expect(flash.notice).to be_present
+      expect(flash.notice).to eq("Tous les messages ont été envoyés avec succès")
+    end
+
+    it "redirect to instructeur_procedure_path" do
+      expect(response).to redirect_to instructeur_procedure_path(procedure)
+    end
+  end
 end
