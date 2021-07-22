@@ -812,7 +812,7 @@ Rails/UniqBeforePluck:
   Enabled: true
 
 Rails/UniqueValidationWithoutIndex:
-  Enabled: false
+  Enabled: true
 
 Rails/UnknownEnv:
   Enabled: false

@@ -12,7 +12,6 @@
 #  deleted_user_email_never_send                      :string
 #  en_construction_at                                 :datetime
 #  en_construction_close_to_expiration_notice_sent_at :datetime
-#  en_construction_conservation_extension             :interval         default(0 seconds)
 #  en_instruction_at                                  :datetime
 #  groupe_instructeur_updated_at                      :datetime
 #  hidden_at                                          :datetime
