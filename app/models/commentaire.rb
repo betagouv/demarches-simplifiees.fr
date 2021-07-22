@@ -18,7 +18,7 @@ class Commentaire < ApplicationRecord
   belongs_to :instructeur, optional: true
   belongs_to :expert, optional: true
 
-  validate :messagerie_available?, on: :create
+  validate :messagerie_available?, on: :create, unless: -> { dossier.brouillon? }
 
   has_one_attached :piece_jointe
 
@@ -95,7 +95,7 @@ class Commentaire < ApplicationRecord
   end
 
   def notify_user
-    DossierMailer.notify_new_answer(dossier).deliver_later
+    DossierMailer.notify_new_answer(dossier, body).deliver_later
   end
 
   def messagerie_available?
