@@ -11,6 +11,8 @@
         %h1= procedure_libelle @procedure
         = link_to 'gestion des notifications', email_notifications_instructeur_procedure_path(@procedure), class: 'header-link'
         |
+        = link_to 'contacter les usagers en brouillon', email_usagers_instructeur_procedure_path(@procedure), class: 'header-link'
+        |
         = link_to 'statistiques', stats_instructeur_procedure_path(@procedure), class: 'header-link'
 
         - if @procedure.routee?
