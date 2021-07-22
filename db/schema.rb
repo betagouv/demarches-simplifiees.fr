@@ -579,6 +579,7 @@ ActiveRecord::Schema.define(version: 2021_06_05_095054) do
     t.bigint "draft_revision_id"
     t.bigint "published_revision_id"
     t.boolean "allow_expert_review", default: true, null: false
+    t.string "encrypted_api_particulier_token"
     t.boolean "experts_require_administrateur_invitation", default: false
     t.index ["declarative_with_state"], name: "index_procedures_on_declarative_with_state"
     t.index ["draft_revision_id"], name: "index_procedures_on_draft_revision_id"

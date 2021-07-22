@@ -206,18 +206,25 @@ describe Procedure do
         end
       end
 
-      context 'api_entreprise_token' do
-        let(:valid_token) { "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c" }
-        let(:invalid_token) { 'plouf' }
-        it { is_expected.to allow_value(valid_token).for(:api_entreprise_token) }
-        it { is_expected.not_to allow_value(invalid_token).for(:api_entreprise_token) }
+      context 'when juridique_required is false' do
+        let(:procedure) { build(:procedure, juridique_required: false, cadre_juridique: nil) }
+
+        it { expect(procedure.valid?).to eq(true) }
       end
     end
 
-    context 'when juridique_required is false' do
-      let(:procedure) { build(:procedure, juridique_required: false, cadre_juridique: nil) }
+    context 'api_entreprise_token' do
+      let(:valid_token) { "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c" }
+      let(:invalid_token) { 'plouf' }
+      it { is_expected.to allow_value(valid_token).for(:api_entreprise_token) }
+      it { is_expected.not_to allow_value(invalid_token).for(:api_entreprise_token) }
+    end
 
-      it { expect(procedure.valid?).to eq(true) }
+    context 'api_particulier_token' do
+      let(:valid_token) { "3841b13fa8032ed3c31d160d3437a76a" }
+      let(:invalid_token) { 'jet0n 1nvalide' }
+      it { is_expected.to allow_value(valid_token).for(:api_particulier_token) }
+      it { is_expected.not_to allow_value(invalid_token).for(:api_particulier_token) }
     end
 
     context 'monavis' do
