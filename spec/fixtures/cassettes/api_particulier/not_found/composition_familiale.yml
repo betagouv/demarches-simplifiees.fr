@@ -1,0 +1,55 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://particulier.api.gouv.fr/api/v2/composition-familiale?codePostal=99148&numeroAllocataire=0000000
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - demarches-simplifiees.fr
+      Accept:
+      - application/json
+      X-Api-Key:
+      - d7e9c9f4c3ca00caadde31f50fd4521a
+      Expect:
+      - ''
+  response:
+    status:
+      code: 404
+      message: Not Found
+    headers:
+      Date:
+      - Tue, 16 Mar 2021 17:38:07 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '191'
+      Connection:
+      - keep-alive
+      Keep-Alive:
+      - timeout=5
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Access-Control-Expose-Headers:
+      - Range,Content-Range,X-Content-Range,X-API-Key
+      Etag:
+      - W/"bf-3lKP/+a/5zk0+FjK0Su/BRtBRxI"
+      Server:
+      - nginx
+      Strict-Transport-Security:
+      - max-age=15552000
+      - max-age=15552000
+      Vary:
+      - Origin, Accept
+      X-Gravitee-Request-Id:
+      - 6081fe73-3f44-454f-81fe-733f44854ff9
+      X-Gravitee-Transaction-Id:
+      - f49e8514-a7da-4166-9e85-14a7dae16682
+    body:
+      encoding: ASCII-8BIT
+      string: !binary |-
+        ewogICJlcnJvciI6ICJub3RfZm91bmQiLAogICJyZWFzb24iOiAiRG9zc2llciBhbGxvY2F0YWlyZSBpbmV4aXN0YW50LiBMZSBkb2N1bWVudCBuZSBwZXV0IMOqdHJlIMOpZGl0w6kuIiwKICAibWVzc2FnZSI6ICJEb3NzaWVyIGFsbG9jYXRhaXJlIGluZXhpc3RhbnQuIExlIGRvY3VtZW50IG5lIHBldXQgw6p0cmUgw6lkaXTDqS4iCn0=
+  recorded_at: Tue, 16 Mar 2021 17:38:07 GMT
+recorded_with: VCR 6.0.0

@@ -1,0 +1,85 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://particulier.api.gouv.fr/api/v2/composition-familiale?codePostal=99148&numeroAllocataire=0000354
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - demarches-simplifiees.fr
+      Accept:
+      - application/json
+      X-Api-Key:
+      - d7e9c9f4c3ca00caadde31f50fd4521a
+      Expect:
+      - ''
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Tue, 16 Mar 2021 16:25:17 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '608'
+      Connection:
+      - keep-alive
+      Keep-Alive:
+      - timeout=5
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Access-Control-Expose-Headers:
+      - Range,Content-Range,X-Content-Range,X-API-Key
+      Etag:
+      - W/"260-1qw9J25zRHbT9AlLDP5p5aXyl00"
+      Server:
+      - nginx
+      Strict-Transport-Security:
+      - max-age=15552000
+      - max-age=15552000
+      Vary:
+      - Origin, Accept
+      X-Gravitee-Request-Id:
+      - 5e179321-832c-4a47-9793-21832c9a4735
+      X-Gravitee-Transaction-Id:
+      - fa7544ae-e956-4403-b544-aee956e403c6
+    body:
+      encoding: UTF-8
+      string: |-
+        {
+          "allocataires": [
+            {
+              "nomPrenom": "MARIE DUPONT",
+              "dateDeNaissance": "12111971",
+              "sexe": "F"
+            },
+            {
+              "nomPrenom": "JEAN DUPONT",
+              "dateDeNaissance": "18101969",
+              "sexe": "M"
+            }
+          ],
+          "enfants": [
+            {
+              "nomPrenom": "LUCIE DUPONT",
+              "dateDeNaissance": "11122016",
+              "sexe": "F"
+            }
+          ],
+          "adresse": {
+            "identite": "Madame MARIE DUPONT",
+            "complementIdentiteGeo": "ESCALIER B",
+            "numeroRue": "123 RUE BIDON",
+            "codePostalVille": "12345 CONDAT",
+            "pays": "FRANCE"
+          },
+          "quotientFamilial": 1754,
+          "annee": 2020,
+          "mois": 12
+        }
+  recorded_at: Tue, 16 Mar 2021 16:25:17 GMT
+recorded_with: VCR 6.0.0

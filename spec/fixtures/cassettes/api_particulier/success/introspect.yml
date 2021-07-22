@@ -1,0 +1,44 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://particulier.api.gouv.fr/api/introspect
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - demarches-simplifiees.fr
+      Accept:
+      - application/json
+      X-Api-Key:
+      - d7e9c9f4c3ca00caadde31f50fd4521a
+      Expect:
+      - ''
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Tue, 16 Mar 2021 15:25:24 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '228'
+      Connection:
+      - keep-alive
+      Keep-Alive:
+      - timeout=5
+      X-Gravitee-Request-Id:
+      - 0e4dd327-de40-4052-8dd3-27de401052c4
+      X-Gravitee-Transaction-Id:
+      - cc30bb74-6516-46d9-b0bb-746516d6d904
+      Strict-Transport-Security:
+      - max-age=15552000
+    body:
+      encoding: UTF-8
+      string: '{"_id":"1d99db5a-a099-4314-ad2f-2707c6b505a6","name":"Application de
+        sandbox","scopes":["dgfip_avis_imposition","dgfip_adresse","cnaf_allocataires","cnaf_enfants","cnaf_adresse","cnaf_quotient_familial","mesri_statut_etudiant"]}'
+  recorded_at: Tue, 16 Mar 2021 15:25:24 GMT
+recorded_with: VCR 6.0.0
