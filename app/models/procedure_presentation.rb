@@ -83,7 +83,7 @@ class ProcedurePresentation < ApplicationRecord
     ]
   end
 
-  def sorted_ids(dossiers, instructeur)
+  def sorted_ids(dossiers, count, instructeur)
     table, column, order = sort.values_at(TABLE, COLUMN, 'order')
 
     case table
@@ -97,15 +97,27 @@ class ProcedurePresentation < ApplicationRecord
             dossiers_id_with_notification
       end
     when TYPE_DE_CHAMP
-      dossiers
+      ids = dossiers
         .with_type_de_champ(column)
         .order("champs.value #{order}")
         .pluck(:id)
+      if ids.size != count
+        rest = dossiers.where.not(id: ids).order(id: order).pluck(:id)
+        order == 'asc' ? ids + rest : rest + ids
+      else
+        ids
+      end
     when TYPE_DE_CHAMP_PRIVATE
-      dossiers
+      ids = dossiers
         .with_type_de_champ_private(column)
         .order("champs.value #{order}")
         .pluck(:id)
+      if ids.size != count
+        rest = dossiers.where.not(id: ids).order(id: order).pluck(:id)
+        order == 'asc' ? ids + rest : rest + ids
+      else
+        ids
+      end
     when 'followers_instructeurs'
       assert_supported_column(table, column)
       # LEFT OUTER JOIN allows to keep dossiers without assignated instructeurs yet

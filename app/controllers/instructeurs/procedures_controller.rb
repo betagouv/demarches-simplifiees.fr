@@ -74,14 +74,19 @@ module Instructeurs
 
       @dossiers = case statut
       when 'a-suivre'
+        dossiers_count = @a_suivre_count
         @a_suivre_dossiers
       when 'suivis'
+        dossiers_count = @suivis_count
         @followed_dossiers
       when 'traites'
+        dossiers_count = @traites_count
         @termines_dossiers
       when 'tous'
+        dossiers_count = @tous_count
         @all_state_dossiers
       when 'archives'
+        dossiers_count = @archives_count
         @archived_dossiers
       end
 
@@ -90,7 +95,7 @@ module Instructeurs
       @has_termine_notifications = notifications[:termines].present?
       @not_archived_notifications_dossier_ids = notifications[:en_cours] + notifications[:termines]
 
-      sorted_ids = procedure_presentation.sorted_ids(@dossiers, current_instructeur)
+      sorted_ids = procedure_presentation.sorted_ids(@dossiers, dossiers_count, current_instructeur)
 
       if @current_filters.count > 0
         filtered_ids = procedure_presentation.filtered_ids(@dossiers, statut)
