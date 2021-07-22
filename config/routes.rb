@@ -357,6 +357,8 @@ Rails.application.routes.draw do
         get 'email_notifications'
         patch 'update_email_notifications'
         get 'deleted_dossiers'
+        get 'email_usagers'
+        post 'create_multiple_commentaire'
 
         resources :dossiers, only: [:show], param: :dossier_id do
           member do
